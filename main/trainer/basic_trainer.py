@@ -18,6 +18,7 @@ class BasicTrainer:
                  learning_rate = 0.002,
                  batch_size = 200,
                  verbose = False,
+                 log_interval = 1,
                  device = "cuda"):
         self.model = model
         self.dataset = dataset
@@ -26,7 +27,7 @@ class BasicTrainer:
         self.learning_rate = learning_rate
         self.batch_size = batch_size
         self.verbose = verbose
-        self.log_interval = 1
+        self.log_interval = log_interval
         self.data_size = len(self.dataset.train_data)
         self.device = device
 
