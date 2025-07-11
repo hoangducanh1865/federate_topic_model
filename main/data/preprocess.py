@@ -1,7 +1,6 @@
 '''
 This script is partially based on https://github.com/dallascard/scholar.
 '''
-
 import os
 import re
 import string
@@ -257,7 +256,8 @@ class Preprocess:
             train_labels=None,
             raw_test_texts=None,
             test_labels=None,
-            pretrained_WE=False
+            pretrained_WE=False,
+            vocab = None
         ):
         np.random.seed(self.seed)
 
@@ -286,7 +286,8 @@ class Preprocess:
         words, doc_counts = zip(*doc_counts_counter.most_common())
         doc_freqs = np.array(doc_counts) / float(len(train_texts) + len(test_texts))
 
-        vocab = [word for i, word in enumerate(words) if doc_counts[i] >= self.min_doc_count and doc_freqs[i] <= self.max_doc_freq]
+        if vocab is None:
+            vocab = [word for i, word in enumerate(words) if doc_counts[i] >= self.min_doc_count and doc_freqs[i] <= self.max_doc_freq]
 
         # filter vocabulary
         if self.vocab_size is not None:
@@ -366,3 +367,4 @@ class Preprocess:
 
             if test_labels is not None:
                 np.savetxt(f"{output_dir}/test_labels.txt", test_labels, fmt='%i')
+

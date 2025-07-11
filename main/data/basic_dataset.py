@@ -47,11 +47,12 @@ class RawDataset:
                  pretrained_WE = False,
                  doc_embed_model = "all-MiniLM-L6-v2",
                  embed_model_device = None,
+                 vocab = None, 
                  verbose = False):
         if preprocess is None:
             preprocess = Preprocess(verbose=verbose)
 
-        rst = preprocess.preprocess(docs, pretrained_WE=pretrained_WE)
+        rst = preprocess.preprocess(docs, pretrained_WE=pretrained_WE, vocab = vocab)
 
         self.train_data = rst["train_bow"]
         self.train_texts = rst["train_texts"]
