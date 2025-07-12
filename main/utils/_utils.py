@@ -1,9 +1,5 @@
-import sys
-project_root = "d:/MachineLearning/federated_vae"
-sys.path.append(project_root)
-
 import numpy as np
-from main.data import file_utils
+from data import file_utils
 
 
 def get_top_words(beta, vocab, num_top_words, verbose=False):

@@ -1,4 +1,3 @@
-from . import client
 from . import data
 from . import evaluation
 from . import model
@@ -24,3 +23,7 @@ from .trainer.basic_trainer import BasicTrainer
 # utils
 from .utils._utils import get_stopwords_set
 from .utils._utils import get_top_words
+
+# test_flwr
+from .test_flwr.fed_utils import split_data
+from .test_flwr.fed_utils import get_all_vocab

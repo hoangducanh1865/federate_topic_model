@@ -1,8 +1,8 @@
-import sys
-project_root = "d:/MachineLearning/federated_vae"
-sys.path.append(project_root)
+# import sys
+# project_root = "d:/MachineLearning/federated_vae"
+# sys.path.append(project_root)
 
-from main.data import file_utils
+from data import file_utils
 import torch
 from torch.utils.data import DataLoader
 import numpy as np
@@ -10,7 +10,7 @@ import scipy.io
 import scipy.sparse
 from scipy.sparse import issparse
 from sentence_transformers import SentenceTransformer
-from main.data.preprocess import Preprocess
+from data.preprocess import Preprocess
 from typing import List, Tuple, Union, Mapping, Any, Callable, Iterable
 
 class DocEmbedModel:

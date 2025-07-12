@@ -1,11 +1,7 @@
-import sys
-project_root = "d:/MachineLearning/federated_vae"
-sys.path.append(project_root)
-
-from main.data.preprocess import Preprocess
-from main.data.basic_dataset import RawDataset, BasicDataset
+from data.preprocess import Preprocess
+from data.basic_dataset import RawDataset, BasicDataset
 from typing import List
-from main.utils._utils import file_utils
+from utils._utils import file_utils
 
 # get vocab from multiple datasets
 def get_all_vocab(dirs: List[str]) -> List[str]:
