@@ -34,10 +34,9 @@ class BasicTrainer:
     def make_optimizer(self):
         return torch.optim.Adam(self.model.parameters(), lr = self.learning_rate)
     
-    def train(self, model_name = None, global_round = None):
+    def train(self, model_name = None):
         optimizer = self.make_optimizer()
-        if model_name is not None:
-            print(f"Client's model: {model_name} \t | Global round: {global_round}")
+
 
         for epoch in range(self.epochs):
             self.model.train()
@@ -54,7 +53,9 @@ class BasicTrainer:
 
                 total_loss += batch_loss * len(batch_data)
 
-            if (epoch % self.log_interval == 0):    
+            if (epoch % self.log_interval == 0):
+                if model_name is not None:
+                    print(f"Client's model: {model_name}")    
                 print(f"Epoch: {epoch:03d} | Loss: {total_loss / self.data_size}")
 
         # top_words = self.get_top_words()
