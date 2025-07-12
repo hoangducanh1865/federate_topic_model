@@ -19,6 +19,9 @@ class BasicTrainer:
                  batch_size = 200,
                  verbose = False,
                  log_interval = 1,
+                 save_model = False,
+                 save_dir = "model_parameters/",
+                 save_interval = 1,
                  device = "cuda"):
         self.model = model
         self.dataset = dataset
@@ -31,10 +34,16 @@ class BasicTrainer:
         self.data_size = len(self.dataset.train_data)
         self.device = device
 
+        self.save_model = save_model
+        self.save_dir = save_dir
+        self.save_interval = save_interval
+        self.save_counter = 0
+
     def make_optimizer(self):
         return torch.optim.Adam(self.model.parameters(), lr = self.learning_rate)
     
     def train(self, model_name = None):
+        self.save_counter += 1
         optimizer = self.make_optimizer()
 
 
@@ -58,6 +67,8 @@ class BasicTrainer:
                     print(f"Client's model: {model_name}")    
                 print(f"Epoch: {epoch:03d} | Loss: {total_loss / self.data_size}")
 
+        # if (self.save_counter == self.save_interval - 1 and self.save_model == True):
+        #     self.save_parameters(self.model.parameters(), prefix=model_name)
         # top_words = self.get_top_words()
         # train_theta = self.test(self.dataset.train_data)
 
@@ -96,3 +107,16 @@ class BasicTrainer:
         test_theta = self.test(self.dataset.test_data)
         return train_theta, test_theta
 
+    def save_parameters(self, parameters, prefix="ETM"):
+        """Hàm helper để lưu parameters"""
+        # Chuyển Flower Parameters sang state_dict
+        params_dict = zip(self.net.state_dict().keys(), parameters)
+        state_dict = {k: torch.tensor(v) for k, v in params_dict}
+            
+        # Tạo tên file
+        filename = f"{prefix}.pth"
+        save_path = self.save_dir + filename
+            
+        # Lưu file
+        torch.save(state_dict, save_path)
+        print(f"Saved at {save_path}")
