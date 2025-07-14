@@ -1,13 +1,10 @@
-import sys
-project_root = "d:/MachineLearning/federated_vae"
-sys.path.append(project_root)
 
 import torch
-from main.data.basic_dataset import BasicDataset
+from data.basic_dataset import BasicDataset
 import torch.nn as nn
 from collections import defaultdict
 import numpy as np
-from main.utils import _utils
+from utils import _utils
 
 class BasicTrainer:
     def __init__(self, 
