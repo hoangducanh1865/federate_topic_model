@@ -2,6 +2,11 @@ from data.preprocess import Preprocess
 from data.basic_dataset import RawDataset, BasicDataset
 from typing import List
 from utils._utils import file_utils
+import glob
+import torch
+import flwr as fl
+import numpy as np
+import os
 
 # get vocab from multiple datasets
 def get_all_vocab(dirs: List[str]) -> List[str]:
@@ -37,4 +42,21 @@ def split_data(dir:str, num_split:int, vocab = None, batch_size = 200, device = 
     
     return datasets
 
+def get_latest_server_model(net, max_round):
+    # list_of_files = [fname for fname in glob.glob("model_parameters/model_round_*")]
+    latest_round_file = f"model_parameters/model_round_{max_round}.npz"
+    # print(list_of_files)
+    print("Loading pre-trained model from: ", latest_round_file)
     
+    # Load NumPy arrays from .npz file
+    with np.load(latest_round_file) as data:
+        arrays = [data[f'arr_{i}'] for i in range(len(data.files))]
+    
+    # Convert to PyTorch state_dict
+    state_dict = {k: torch.from_numpy(v) for k, v in zip(net.state_dict().keys(), arrays)}
+    net.load_state_dict(state_dict)
+    
+    # Convert to Flower Parameters
+    state_dict_ndarrays = [v.cpu().numpy() for v in net.state_dict().values()]
+    parameters = fl.common.ndarrays_to_parameters(state_dict_ndarrays)
+    return parameters
