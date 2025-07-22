@@ -6,7 +6,7 @@ import numpy as np
 from tqdm import tqdm
 from gensim.corpora import Dictionary
 from gensim.models import CoherenceModel
-from main.data.file_utils import split_text_word
+from data.file_utils import split_text_word
 from typing import List
 
 
